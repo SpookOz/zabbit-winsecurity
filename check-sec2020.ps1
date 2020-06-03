@@ -143,8 +143,6 @@ $wscType=Add-Type -memberDefinition $wscDefinition -name "wscType" -UsingNamespa
 "User Account Control: " + $wscType[0]::GetSecurityProviderHealth($wscType[1]::WSC_SECURITY_PROVIDER_USER_ACCOUNT_CONTROL)
 "         WSC Service: " + $wscType[0]::GetSecurityProviderHealth($wscType[1]::WSC_SECURITY_PROVIDER_SERVICE)
 
-# Send Security Status to Zabbix Server
-
 
 if ($wscType[0]::GetSecurityProviderHealth($wscType[1]::WSC_SECURITY_PROVIDER_FIREWALL) -eq $wscType[2]::WSC_SECURITY_PROVIDER_HEALTH_POOR)
 {
@@ -194,10 +192,8 @@ if ($wscType[0]::GetSecurityProviderHealth($wscType[1]::WSC_SECURITY_PROVIDER_SE
 	Add-Content $env:temp$SenderSecurityStatus "- Win.SecurityCenter OK"
 }
 
+# ------------------------------------------------------------------------- #
+# This part sends the information in the temp file to Zabbix
+# ------------------------------------------------------------------------- #
+
 & $Sender $Senderarg1 $Senderarg2 $Senderarg3 $Senderarg4 $env:temp$SenderSecurityStatus
-
-
-
-
-
-
