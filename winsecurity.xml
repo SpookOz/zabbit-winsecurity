@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-06-03T04:56:12Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>WinSecurity</template>
+            <name>WinSecurity</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Win-Security</name>
+                </application>
+                <application>
+                    <name>Win-Security-Panel</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Update Security Template</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.run[powershell.exe -NoProfile -ExecutionPolicy Bypass -command Invoke-WebRequest -Uri https://git.io/JfPlX -OutFile $Env:Programfiles\'Zabbix Agent\plugins\check-sec2020.ps1',nowait]</key>
+                    <delay>6h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <status>DISABLED</status>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Security Status Check</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.run[powershell.exe -NoProfile -ExecutionPolicy Bypass -file &quot;%programfiles%\Zabbix Agent\plugins\check-sec2020.ps1&quot;,nowait]</key>
+                    <delay>15m</delay>
+                    <history>14d</history>
+                    <trends>0</trends>
+                    <value_type>LOG</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Antispyware Status</name>
+                    <type>TRAP</type>
+                    <key>Win.Antispyware</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(BAD,#2)}=1</expression>
+                            <name>Antispyware Status Not OK</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Antivirus Status</name>
+                    <type>TRAP</type>
+                    <key>Win.Antivirus</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(BAD,#2)}=1</expression>
+                            <name>Antivirus Status Not OK</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Antivirus Name</name>
+                    <type>TRAP</type>
+                    <key>Win.Antivirusname</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Antivirus Count</name>
+                    <type>TRAP</type>
+                    <key>Win.Antivirusnum</key>
+                    <delay>0</delay>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;1</expression>
+                            <name>Windows Antivirus Count</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Autoupdate Status</name>
+                    <type>TRAP</type>
+                    <key>Win.Autoupdate</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(BAD,#2)}=1</expression>
+                            <name>Autoupdate Status Not OK</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Firewall Status</name>
+                    <type>TRAP</type>
+                    <key>Win.Firewall</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(BAD,#2)}=1</expression>
+                            <name>Firewall Status Not OK</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>SecurityCenter Status</name>
+                    <type>TRAP</type>
+                    <key>Win.SecurityCenter</key>
+                    <delay>0</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Win-Security-Panel</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{str(BAD,#2)}=1</expression>
+                            <name>SecurityCenter Status Not OK</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+        </template>
+    </templates>
+</zabbix_export>
